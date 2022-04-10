@@ -304,6 +304,15 @@ function debug(msg) {
     next
 }
 
+/^[[:space:]]*# @prefix/ {
+    debug("→ @prefix")
+    sub(/^[[:space:]]*# @predix /, "")
+    file_prefix = $0
+
+    next
+}
+
+
 /^[[:space:]]*# @brief/ {
     debug("→ @brief")
     sub(/^[[:space:]]*# @brief /, "")
@@ -481,6 +490,11 @@ END {
         if (file_description != "") {
             print "\n" render("h2", "Overview")
             print "\n" file_description
+        }
+
+        if (file_prefix != "") {
+            print "\n" render("h2", "Prefix")
+            print "\n" file_prefix
         }
     }
 
