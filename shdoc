@@ -131,6 +131,12 @@ function handle_description() {
         return;
     }
 
+    if (section != "" && section_description == "") {
+      debug("→ → description: added")
+      section_description = description
+      return;
+    }
+
     if (file_description == "") {
         debug("→ → description: added")
         file_description = description
@@ -185,7 +191,19 @@ function render_docblock(func_name, description, docblock) {
     debug("→ → func_name: [" func_name "]")
     debug("→ → description: [" description "]")
 
-    lines[0] = render("h3", func_name)
+    if (section != "") {
+      lines[0] = render("h2", section)
+      if (section_description != "") {
+        push(lines, section_description)
+      }
+      section = ""
+      section_description = ""
+      push(lines, render("h3", func_name))
+      push(lines, "")
+    } else {
+      lines[0] = render("h3", func_name)
+    }
+    
     if (description != "") {
         push(lines, description)
     }
@@ -352,6 +370,14 @@ in_description {
     }
 }
 
+/^[[:space:]]*# @section/ {
+  debug("→ @section")
+  sub(/^[[:space:]]*# @section /, "")
+  section = $0
+
+  next
+}
+
 /^[[:space:]]*# @example/ {
     debug("→ @example")
 
@@ -438,7 +464,7 @@ in_example {
     next
 }
 
-/^[ \t]*(function([ \t])+)?([a-zA-Z0-9_:-\\.]+)([ \t]*)(\(([ \t]*)\))?[ \t]*\{/ \
+/^[ \t]*(function([ \t])+)?([a-zA-Z0-9_\-:-\\.]+)([ \t]*)(\(([ \t]*)\))?[ \t]*\{/ \
     && (length(docblock) != 0 || description != "") && !in_example {
     debug("→ function")
     if (is_internal) {
@@ -449,8 +475,8 @@ in_example {
 
         is_internal = 0
         func_name = gensub(\
-            /^[ \t]*(function([ \t])+)?([a-zA-Z0-9_:-\\.]+)[ \t]*\(.*/, \
-            "\\3()", \
+            /^[ \t]*(function([ \t])+)?([a-zA-Z0-9_\-:-\\.]+)[ \t]*\(.*/, \
+            "\\3", \
             "g" \
         )
 

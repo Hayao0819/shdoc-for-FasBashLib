@@ -79,9 +79,9 @@ The project solves lots of problems:
 
 ## Index
 
-* [say-hello()](#say-hello)
+* [say-hello](#say-hello)
 
-### say-hello()
+### say-hello
 
 My super function.
 Not thread-safe.
@@ -124,6 +124,10 @@ file.
 # @name MyLibrary
 ```
 
+### `@file`
+
+Identical to [@name](#name).
+
 ### `@brief`
 
 A brief line about the project. Can be specified once in the beginning of the file.<br>
@@ -136,8 +140,9 @@ A brief line about the project. Can be specified once in the beginning of the fi
 
 ### `@description`
 
-A multiline description of the project/function.
-* Can be specified once for the whole file in the begibeginning of the file.
+A multiline description of the project/section/function.
+* Can be specified once for the whole file in the beginning of the file.
+* Can be specified once for a section of the file. See [@section](#section).
 * Can be specified once for on top of a function definition.
 
 **Example**
@@ -151,6 +156,16 @@ A multiline description of the project/function.
 function super() {
     ...
 }
+```
+
+### `@section`
+
+The name of a section of the file. Can be used to group functions.
+
+**Example**
+```bash
+# @section My utilities functions
+# @description The following functions can be used to solve problems.
 ```
 
 ### `@example`
@@ -218,6 +233,19 @@ Can be specified multiple times to describe all possible exitcodes and their con
 # @description Says 'hello world'.
 # @exitcode 0 If successful.
 # @exitcode 1 If world is gone.
+say-hello-world() {
+    ...
+}
+```
+
+### `@stdin`
+
+The expected input to the function call from `stdin` (usually the terminal or command line)
+
+**Example**
+```bash
+# @description Asks name.
+# @stdin The users name from the terminal/command line.
 say-hello-world() {
     ...
 }

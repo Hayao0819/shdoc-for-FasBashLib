@@ -1,11 +1,13 @@
-#!/bin/bash
 
 tests:put input <<EOF
 # @name Project Name
 # @brief Brief
 # @description a
 # b
-# c
+
+# @section Section A
+# @description a
+# a
 
 # @description func a
 # line a 2
@@ -13,17 +15,13 @@ tests:put input <<EOF
 a() {
 }
 
+# @section Section B
+# @description b
+
 # @description func b
 # ab
 # @noargs
 b() {
-}
-
-# @description func c
-# @example
-#      echo 1
-#     echo 2
-c() {
 }
 EOF
 
@@ -36,13 +34,16 @@ Brief
 
 a
 b
-c
 
 ## Index
 
 * [a](#a)
 * [b](#b)
-* [c](#c)
+
+## Section A
+
+a
+a
 
 ### a
 
@@ -51,23 +52,16 @@ line a 2
 
 _Function has no arguments._
 
+## Section B
+
+b
+
 ### b
 
 func b
 ab
 
 _Function has no arguments._
-
-### c
-
-func c
-
-#### Example
-
-\`\`\`bash
- echo 1
-echo 2
-\`\`\`
 
 EOF
 
